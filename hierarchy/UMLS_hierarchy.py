@@ -12,22 +12,22 @@ class UMLSGraph:
     def create_tree(self, mesh: pd.DataFrame) -> Dict[str, Dict[str, str]]:
         for row_idx, UMLS_ENTRY in tqdm(enumerate(mesh.itertuples(index=False)), total=mesh.shape[0]):
             node = self.get_node(UMLS_ENTRY)
-            if node.REL=='CHD':
-                node['parents'].extend(ast.literal_eval(node.SecondAUI))
-            if node.REL=='PAR':
-                node['children'].extend(ast.literal_eval(node.SecondAUI))
+            if UMLS_ENTRY.REL=='CHD':
+                node['parents'].extend(ast.literal_eval(UMLS_ENTRY.CODE_Second))
+            if UMLS_ENTRY.REL=='PAR':
+                node['children'].extend(ast.literal_eval(UMLS_ENTRY.CODE_Second))
 
     def get_node(self, row):
-        if row.FirstCUI in self.tree:
-            node = self.tree[row.FirstAUI]
+        if row.CODE_First in self.tree:
+            node = self.tree[row.CODE_First]
         else:
             node = {
-                'concept_id': row.FirstAUI,
-                'concept_name': row.NAME,
+                'concept_id': row.CODE_First,
+                'concept_name': row.STR_First,
                 'parents': [],
                 'children': []
             }
-            self.tree[row.FirstCUI] = node
+            self.tree[row.CODE_First] = node
         return node
 
     def get_parents(self, concept_id: str):

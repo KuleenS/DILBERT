@@ -3,7 +3,7 @@ from models.random_sampler import RandomSampler
 from argparse import ArgumentParser
 import pandas as pd
 from tqdm import tqdm
-from hierarchy import MeSHGraph, UMLS_hierarchy
+from hierarchy import MeSHGraph, UMLSGraph
 import os
 from glob import glob
 
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     data = read(args.input_data)
     hierarchy = None
     if args.hierarchy_aware and args.UMLS:
-        hierarchy = UMLS_hierarchy(args.hierarchy)
+        hierarchy = UMLSGraph(args.hierarchy)
     elif args.hierarchy_aware:
         hierarchy = MeSHGraph(args.hierarchy)
     if args.hard:
