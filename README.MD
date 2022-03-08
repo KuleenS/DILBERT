@@ -1,153 +1,13 @@
-Medical Concept Normalization in Clinical Trials with Drug and Disease Representation Learning
----
-This repository contains additional materials of our papers ["Medical Concept Normalization in Clinical Trials with Drug and Disease Representation Learning"](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btab474/6313159?login=true) (_Bioinformatics_) and ["Drug and Disease Interpretation Learning with Biomedical Entity Representation Transformer"](https://link.springer.com/chapter/10.1007/978-3-030-72113-8_30) (_ECIR 2021_). 
-We investigate the effectiveness of transferring concept normalization from the general biomedical domain to the 
-clinical trials domain in a zero-shot setting with an absence of labeled data. We propose a simple and effective 
-two-stage neural approach based on fine-tuned BERT architectures. In the first stage, we train a metric learning model 
-that optimizes relative similarity of mentions and concepts via triplet loss. The model is trained on available labeled 
-corpora of scientific abstracts to obtain vector embeddings of concept names and entity mentions from texts. In the 
-second stage, we find the closest concept name representation in an embedding space to a given clinical mention. We 
-evaluated several models, including state-of-the-art architectures, on a dataset of abstracts and a real-world dataset
- of trial records with interventions and conditions mapped to drug and disease terminologies. Extensive experiments
-  validate the effectiveness of our approach in knowledge transfer from the scientific literature to clinical trials.
-  
-Evaluation & Results
----
-Table 1
-Out-of-domain performance of the proposed DILBERT model andbaselines in terms of Acc@1 on the 
-filtered test set of clinical trials (CT)
-
-<table>
-<thead>
-  <tr>
-    <th rowspan="2">Model</th>
-    <th colspan="2">CT Condition</th>
-    <th colspan="2">CT Intervention</th>
-  </tr>
-  <tr>
-    <td>single concept</td>
-    <td>full set</td>
-    <td>single concept</td>
-    <td>full set</td>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>BioBERT ranking</td>
-    <td>72.6</td>
-    <td>71.74</td>
-    <td>77.83</td>
-    <td>56.97</td>
-  </tr>
-  <tr>
-    <td>BioSyn</td>
-    <td>86.36</td>
-    <td>-</td>
-    <td>79.58</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td colspan="5">DILBERT with different ranking strategies</td>
-  </tr>
-  <tr>
-    <td>random sampling</td>
-    <td>85.73</td>
-    <td>84.85</td>
-    <td>82.54</td>
-    <td>81.16</td>
-  </tr>
-  <tr>
-    <td>random + 2 parents</td>
-    <td>86.74</td>
-    <td>86.36</td>
-    <td>81.84</td>
-    <td>79.14</td>
-  </tr>
-  <tr>
-    <td>random + 5 parents</td>
-    <td>87.12</td>
-    <td>86.74</td>
-    <td>81.67</td>
-    <td>79.14</td>
-  </tr>
-  <tr>
-    <td>resampling</td>
-    <td>85.22</td>
-    <td>84.63</td>
-    <td>81.67</td>
-    <td>80.21</td>
-  </tr>
-  <tr>
-    <td>resampling + 5 siblings</td>
-    <td>84.84</td>
-    <td>84.26</td>
-    <td>80.62</td>
-    <td>76.16</td>
-  </tr>
-</tbody>
-</table>
-
-Table 2
-In-domain performance of the proposed DILBERT model interms of Acc@1 on the refined test set of 
-the Biocreative V CDR corpus. For more details about the refined CDR corpus, please see our paper ["Fair evaluation in concept normalization: a large-scale comparative analysis for BERT-based models"](https://www.aclweb.org/anthology/2020.coling-main.588.pdf)
-
-<table>
-<thead>
-  <tr>
-    <th>Model</th>
-    <th>CDR Disease</th>
-    <th>CDR Chemical</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>BioBERT ranking</td>
-    <td>66.4</td>
-    <td>80.7</td>
-  </tr>
-  <tr>
-    <td>BioSyn</td>
-    <td>74.1</td>
-    <td>83.8</td>
-  </tr>
-  <tr>
-    <td>DILBERT, random sampling</td>
-    <td>75.5</td>
-    <td>81.4</td>
-  </tr>
-  <tr>
-    <td>DILBERT, random + 2 parents</td>
-    <td>75.0</td>
-    <td>81.2</td>
-  </tr>
-  <tr>
-    <td>DILBERT, random + 5 parents</td>
-    <td>73.5</td>
-    <td>81.4</td>
-  </tr>
-  <tr>
-    <td>DILBERT, resampling</td>
-    <td>75.8</td>
-    <td>83.3</td>
-  </tr>
-  <tr>
-    <td>DILBERT, resampling + 5 siblings</td>
-    <td>75.3</td>
-    <td>82.1</td>
-  </tr>
-</tbody>
-</table>
-  
- Figure 1
- In-domain performance  of the proposed DILBERT model in terms of Acc@1 on the refined test set of the Biocreative V 
- CDR corpus using reduced dictionaries.
- ![](images/cdr_combined.png)
- 
+Modified version of DILBERT to support using UMLS codes for normalization instead of just mesh terms
  ## Requirements
 ```bash
 $ pip install -r requirements.txt
 ```
-
+or 
+```bash
+$ conda env create -f environment.yml
+```
+(env name is called dilbert)
 ## Resources
 
 ### Pretrained Model
@@ -159,48 +19,20 @@ We use the [Huggingface](https://github.com/huggingface/transformers) version of
 
 We made available all [datasets](https://yadi.sk/d/lQ8bAhFMnjSvTA)
 
+## Steps to run DILBERT with UMLS on Litcoin Data
+1. Download the litcoin data and put it into data folder in DILBERT folder in a folder named LITCOIN
+2. Run the PrepareLitcoin.ipynb in litcoindata preperation
+3. If successful, then you should have two folders with sets of concept files
+4. To get the UMLS Graph for MSH and OMIM and the corresponding vocab for the litcoin data, please run UMLS mapping on the UAB system with corresponding credentials
+5. If you do not have the credentials, email me and ill send them over
+6. Things should be prepared to run finally do ./runUMLS
+7. First replace /home/ksasse/code/alzhiemers/DILBERT with your corresponding directory (I do not have a fix for the module import errors right now)
+8. Also download biobert from the drive folder above and put it into ./data/pretrained_models/
 
-### Run
 
-To run the full training and evaluation procedure use run.sh script.
 
-```bash
-$ ./run.sh
-```
 
-## Generating triplets
 
-```bash
-$ python data_utils/convert_to_triplet_dataset.py --input_data path/to/labeled/files \
-                                     --vocab path/to/vocabulary \
-                                     --save_to path/to/save/triplets/file \
-                                     --path_to_bert_model path/to/bert/model \
-                                     --hard \
-                                     --hierarchy path/to/hierarchy/file \
-                                     --hierarchy_aware
-```
-
-## Train
-```bash
-$ python train_sentence_bert.py --path_to_bert_model path/to/bert/model \
-                                --data_folder path/to/folder/containing/triplet/file  \
-                                --triplets_file triplet_file_name \
-                                --output_dir path/to/save/model
-```
-
-## Evaluation
- 
-To eval the model run the command:
-
-```bash
-$ python eval_bert_ranking.py --model_dir path/to/bert/model \
-                         --data_folder path/to/labeled/files \
-                         --vocab path/to/vocabulary
-
-```
-
- 
- 
  Citing & Authors
  ---
 Miftahutdinov Z., Kadurin A., Kudrin R., Tutubalina E. Drug and Disease Interpretation Learning with Biomedical Entity Representation Transformer //Advances in  Information Retrieval. – 2021. – pp. 451-466. [paper](https://link.springer.com/chapter/10.1007/978-3-030-72113-8_30), [preprint](https://arxiv.org/pdf/2101.09311.pdf)
