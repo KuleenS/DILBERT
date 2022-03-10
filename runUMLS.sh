@@ -12,7 +12,7 @@ EVAL_MODEL=true
 
 
 if $PREPARE_TRIPLETS; then
-  #mkdir $TRIPLETS_FOLDER
+  mkdir $TRIPLETS_FOLDER
   PYTHONPATH=/home/ksasse/code/alzhiemers/DILBERT python data_utils/convert_to_triplet_dataset.py --input_data $DATA_DIR/train \
                                        --vocab $DATA_DIR/MSHOMIMVocab.txt \
                                        --hierarchy_aware \

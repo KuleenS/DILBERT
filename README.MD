@@ -20,14 +20,17 @@ We use the [Huggingface](https://github.com/huggingface/transformers) version of
 We made available all [datasets](https://yadi.sk/d/lQ8bAhFMnjSvTA)
 
 ## Steps to run DILBERT with UMLS on Litcoin Data
-1. Download the litcoin data and put it into data folder in DILBERT folder in a folder named LITCOIN
-2. Run the PrepareLitcoin.ipynb in litcoindata preperation
-3. If successful, then you should have two folders with sets of concept files
-4. To get the UMLS Graph for MSH and OMIM and the corresponding vocab for the litcoin data, please run UMLS mapping on the UAB system with corresponding credentials
-5. If you do not have the credentials, email me and ill send them over
-6. Things should be prepared to run finally do ./runUMLS
-7. First replace /home/ksasse/code/alzhiemers/DILBERT with your corresponding directory (I do not have a fix for the module import errors right now)
-8. Also download biobert from the drive folder above and put it into ./data/pretrained_models/
+1. Download biobert from the drive folder above and put it into ./data/pretrained_models/
+2. Download the litcoin data and put it into data folder in DILBERT folder in a folder named LITCOIN (./data/LITCOIN)
+3. Run the PrepareLitcoin.ipynb in litcoindata preperation
+4. If successful, then you should have two folders with sets of concept files
+5. To get the UMLS Graph for MSH and OMIM and the corresponding vocab for the litcoin data, please run UMLS mapping on the UAB system with corresponding credentials
+6. If you do not have the credentials, email me and ill send them over
+7. Things should be prepared to run finally do ./runUMLS
+8. First replace /home/ksasse/code/alzhiemers/DILBERT with your corresponding directory (I do not have a fix for the module import errors right now)
+9. chmod +x ./runUMLS
+10.  ./runUMLS
+
 
 
 
