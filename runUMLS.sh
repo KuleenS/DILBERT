@@ -30,6 +30,6 @@ fi
 
 if $EVAL_MODEL; then
   PYTHONPATH=/home/ksasse/code/alzhiemers/DILBERT python eval_bert_ranking.py --model_dir $OUTPUT_DIR \
-                            --data_folder $DATA_DIR/processed_test_refined \
-                            --vocab $DATA_DIR/test_dictionary.txt > $DATA_DIR/eval_results.txt
+                            --data_folder $DATA_DIR/test \
+                            --vocab $DATA_DIR/MSHOMIMVocab.txt  > $DATA_DIR/eval_results.txt
 fi
