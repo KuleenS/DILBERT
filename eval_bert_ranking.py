@@ -64,17 +64,17 @@ def eval_entities(predicted_entities: List[Entity], gold_entities: List[Entity])
 
 if __name__ == '__main__':
     args = get_arguments()
-    """if args.ct_dataset:
+    if args.ct_dataset:
         entities = read_clinical_trials_dataset(args.data_folder, args.out_of_kb)
-    else:"""
-    entities = read_dataset(args.data_folder)
-    bert_ranker = RankingMapper(args.model_dir, args.vocab)
-    predicted = bert_ranker.predict(entities)
-    pickle.dump( predicted, open( "predicted.p", "wb" ) )
-    """if args.split:
-        acc_1 = eval_splitted_entities(predicted, entities)
     else:
-        acc_1 = eval_entities(predicted, entities)"""
+        entities = read_dataset(args.data_folder)
+        bert_ranker = RankingMapper(args.model_dir, args.vocab)
+        predicted = bert_ranker.predict(entities)
+        pickle.dump( predicted, open( "predicted.p", "wb" ) )
+        if args.split:
+            acc_1 = eval_splitted_entities(predicted, entities)
+        else:
+            acc_1 = eval_entities(predicted, entities)
 
     print(f"Acc@1 is {acc_1}")
 

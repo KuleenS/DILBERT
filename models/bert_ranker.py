@@ -14,6 +14,7 @@ from sklearn.model_selection import train_test_split
 from sentence_transformers.readers import TripletReader
 from typing import List, Tuple, Any, Optional, Dict
 from tqdm import tqdm
+from copy import deepcopy
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s')
 
@@ -112,7 +113,7 @@ class RankingMapper:
         if split:
             entities_pp = [sp_entity for entity in entities for sp_entity in split_entity(entity)]
         else:
-            entities_pp = entities
+            entities_pp = deepcopy(entities)
         if pp:
             entities_pp = preprocess(entities_pp)
         entity_texts = [entity['entity_text'] for entity in entities_pp]
@@ -131,7 +132,7 @@ class RankingMapper:
             pred_labels.append('NIL')
             entity['label'] = pred_labels
 
-        return entities
+        return entities_pp
 
     def train(self, data_reader: TripletReader, batch_size: int, epochs: int,
               output_dir: str, triplets_file: str, test_size: float = 0.3) -> None:
