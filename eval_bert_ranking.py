@@ -10,6 +10,8 @@ from typing import List, Dict, Any
 from copy import deepcopy
 
 
+import os
+
 Entity = Dict[str, Any]
 
 
@@ -33,10 +35,15 @@ def get_arguments():
     parser.add_argument('--data_folder')
     parser.add_argument('--vocab')
     parser.add_argument('--split', action='store_true')
+    parser.add_argument('--prediction', action='store_true')
     parser.add_argument('--ct_dataset', action='store_true')
     parser.add_argument('--out_of_kb', action='store_true')
-    return parser.parse_args()
 
+    return parser.parse_args()
+#ask the authors on github about problem
+#link part1 and dilbert together
+#link dilbert and part2 together 
+#run the generation pipeline
 
 def eval_splitted_entities(predicted_entities: List[Entity], gold_entities: List[Entity]) -> float:
     gold_entities = pd.DataFrame(gold_entities)
@@ -61,6 +68,22 @@ def eval_entities(predicted_entities: List[Entity], gold_entities: List[Entity])
         correct_top1.append(is_correct(label, predicted_top_labels, topk=1))
     return np.mean(correct_top1)
 
+def save_predictions(predicted):
+    with open('DILBERTPredictions.csv', 'w') as df:
+        df.write('id\tabstract_id\toffset_start\toffset_finish\ttype\tmention\tentity_ids\n')
+        for i, entry in enumerate(predicted):
+            if i==0:
+                with open(entry['query_id'].split('_')[0], 'r') as f:
+                    data = f.readlines()
+            else:
+                if(entry['query_id'].split('_')[0]!=predicted[i-1]['query_id'].split('_')[0]):
+                    with open(entry['query_id'].split('_')[0], 'r') as f:
+                        data = f.readlines()
+            line = data[entry['entity_id']].split('||')
+            base_name = os.path.basename(entry['query_id']).split('_')[0].split('.')[0]
+            offsets = line[1].split('|')
+            df.write(f'{i}\t{base_name}\t{offsets[0]}\t{offsets[1]}\t{line[2]}\t{line[3]}\t{entry["label"][0]}\n')
+        
 
 if __name__ == '__main__':
     args = get_arguments()
@@ -71,10 +94,12 @@ if __name__ == '__main__':
         bert_ranker = RankingMapper(args.model_dir, args.vocab)
         predicted = bert_ranker.predict(entities)
         pickle.dump( predicted, open( "predicted.p", "wb" ) )
-        if args.split:
-            acc_1 = eval_splitted_entities(predicted, entities)
+        if not args.prediction:
+            if args.split:
+                acc_1 = eval_splitted_entities(predicted, entities)
+            else:
+                acc_1 = eval_entities(predicted, entities)
+            print(f"Acc@1 is {acc_1}")
         else:
-            acc_1 = eval_entities(predicted, entities)
-
-    print(f"Acc@1 is {acc_1}")
+            save_predictions()
 
