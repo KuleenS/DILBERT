@@ -52,8 +52,7 @@ result.columns = ['FirstAUI', 'SecondAUI', 'REL', 'CODE_First', 'STR_First', 'CO
 result = result.groupby(['CODE_First','REL', 'STR_First'])['CODE_Second'].apply(list).reset_index()
 
 # %%
-import os
-os.mkdir('../data/LITCOINDILBERTPREPARED')
+
 result.to_csv('../data/LITCOINDILBERTPREPARED/UMLSgraph.csv')
 
 # %%
