@@ -1,7 +1,7 @@
 DATA_DIR=./data/LITCOINDILBERTPREPARED/
 TRIPLETS_FOLDER=./data/corpora/litcoin/
 TRIPLETS_FILE=train_neg30_pos30_parents2_random.txt
-BERT_MODEL=./data/pretrained_models/biobert-v1.1
+BERT_MODEL=./data/pretrained_models/biobert-base-cased-v1.2
 OUTPUT_DIR=./tmp/litcoin
 PYTHON_PATH=/home/ksasse/code/alzhiemers/DILBERT
 
