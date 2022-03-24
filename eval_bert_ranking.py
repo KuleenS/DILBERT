@@ -93,7 +93,7 @@ if __name__ == '__main__':
         entities = read_dataset(args.data_folder)
         bert_ranker = RankingMapper(args.model_dir, args.vocab)
         predicted = bert_ranker.predict(entities)
-        pickle.dump( predicted, open( "predicted.p", "wb" ) )
+        pickle.dump(predicted, open( "predicted.p", "wb" ))
         if not args.prediction:
             if args.split:
                 acc_1 = eval_splitted_entities(predicted, entities)
@@ -101,5 +101,5 @@ if __name__ == '__main__':
                 acc_1 = eval_entities(predicted, entities)
             print(f"Acc@1 is {acc_1}")
         else:
-            save_predictions()
+            save_predictions(predicted)
 
