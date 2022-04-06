@@ -20,7 +20,7 @@ for x in cursor:
 df = pd.DataFrame(total_relations_umls, columns =['FirstAUI', 'SecondAUI', 'REL','SAB'])
 
 # %%
-query2 = ("SELECT AUI, SAB, CODE, STR FROM MRCONSO WHERE (SAB LIKE '%MSH%' OR SAB LIKE '%OMIM%') and ISPREF = 'Y'")
+query2 = ("SELECT AUI, SAB, CODE, STR FROM MRCONSO WHERE (SAB LIKE '%MSH%' OR SAB LIKE '%OMIM%')")
 
 # %%
 cursor.execute(query2)
@@ -32,6 +32,8 @@ for x in cursor:
 
 # %%
 df2 = pd.DataFrame(names_of_CUIS, columns =['AUI', 'SAB', 'CODE','STR'])
+
+df2 = df2[(~df2.CODE.str.contains('U'))& (~df2.CODE.str.contains('Q'))]
 
 # %%
 result = df.merge(df2, left_on="FirstAUI", right_on="AUI")
