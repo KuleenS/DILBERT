@@ -39,6 +39,10 @@ df2 = pd.DataFrame(names_of_CUIS, columns =['AUI', 'SAB', 'CODE','STR'])
 #remove U and Q rows as these are not in LITCOIN
 df2 = df2[(~df2.CODE.str.contains('U'))& (~df2.CODE.str.contains('Q'))]
 
+df2 = df2[df2.CODE.str.len()<8]
+
+df2 = df2.drop_duplicates(subset=['CODE'])
+
 # %%
 #merge the AUIS together of the SABS and the AUI df
 result = df.merge(df2, left_on="FirstAUI", right_on="AUI")
