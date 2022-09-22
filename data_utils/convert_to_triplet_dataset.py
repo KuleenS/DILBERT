@@ -9,6 +9,21 @@ from glob import glob
 
 from typing import Optional, Any, List, Tuple
 
+def create_parser():
+    parser = ArgumentParser()
+    parser.add_argument('--input_data')
+    parser.add_argument('--vocab')
+    parser.add_argument('--hierarchy')
+    parser.add_argument('--negatives_count_per_example', type=int, default=30)
+    parser.add_argument('--positive_count_per_example', type=int, default=15)
+    parser.add_argument('--parents_sample_count', type=int, default=0)
+    parser.add_argument('--save_to')
+    parser.add_argument('--path_to_bert_model')
+    parser.add_argument('--hard', action='store_true')
+    parser.add_argument('--hierarchy_aware', action='store_true')
+    parser.add_argument('--UMLS', action='store_true')
+
+    return parser
 
 def parse_line(line: str):
     splitted_line = line.split('||')
@@ -86,22 +101,7 @@ def get_positive_examples(label: str, positives_count: int, hierarchy: Optional[
         parents = [concept_name for concept_id, concept_name in ordered_labels if concept_id in parent_labels]
     return positives + parents
 
-
-if __name__ == '__main__':
-    parser = ArgumentParser()
-    parser.add_argument('--input_data')
-    parser.add_argument('--vocab')
-    parser.add_argument('--hierarchy')
-    parser.add_argument('--negatives_count_per_example', type=int, default=30)
-    parser.add_argument('--positive_count_per_example', type=int, default=15)
-    parser.add_argument('--parents_sample_count', type=int, default=0)
-    parser.add_argument('--save_to')
-    parser.add_argument('--path_to_bert_model')
-    parser.add_argument('--hard', action='store_true')
-    parser.add_argument('--hierarchy_aware', action='store_true')
-    parser.add_argument('--UMLS', action='store_true')
-    args = parser.parse_args()
-
+def main(args):
     data = read(args.input_data)
     hierarchy = None
     if args.hierarchy_aware and args.UMLS:
@@ -136,4 +136,11 @@ if __name__ == '__main__':
                     if entity_text == positive_example: continue
                     for negative_example in negative_examples:
                         output_stream.write(f'{entity_text}\t{positive_example}\t{negative_example}\n')
+
+if __name__ == '__main__':
+    parser = create_parser()
+    args = parser.parse_args()
+
+    main(args)
+    
 

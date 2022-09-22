@@ -29,7 +29,7 @@ def is_correct(meddra_code: str, candidates: List[str], topk: int = 1) -> int:
     return 0
 
 
-def get_arguments():
+def create_parser():
     parser = ArgumentParser()
     parser.add_argument('--model_dir')
     parser.add_argument('--data_folder')
@@ -39,7 +39,8 @@ def get_arguments():
     parser.add_argument('--ct_dataset', action='store_true')
     parser.add_argument('--out_of_kb', action='store_true')
 
-    return parser.parse_args()
+    return parser
+
 #ask the authors on github about problem
 #link part1 and dilbert together
 #link dilbert and part2 together 
@@ -84,9 +85,7 @@ def save_predictions(predicted):
             offsets = line[1].split('|')
             df.write(f'{i}\t{base_name}\t{offsets[0]}\t{offsets[1]}\t{line[2]}\t{line[3]}\t{entry["label"][0]}\n')
         
-
-if __name__ == '__main__':
-    args = get_arguments()
+def main(args):
     if args.ct_dataset:
         entities = read_clinical_trials_dataset(args.data_folder, args.out_of_kb)
     else:
@@ -102,4 +101,9 @@ if __name__ == '__main__':
             print(f"Acc@1 is {acc_1}")
         else:
             save_predictions(predicted)
+
+if __name__ == '__main__':
+    parser = create_parser()
+    args = parser.parse_args()
+    main(args)
 
