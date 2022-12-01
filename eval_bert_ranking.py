@@ -38,6 +38,7 @@ def create_parser():
     parser.add_argument('--prediction', action='store_true')
     parser.add_argument('--ct_dataset', action='store_true')
     parser.add_argument('--out_of_kb', action='store_true')
+    parser.add_argument('--output_path')
 
     return parser
 
@@ -69,8 +70,8 @@ def eval_entities(predicted_entities: List[Entity], gold_entities: List[Entity])
         correct_top1.append(is_correct(label, predicted_top_labels, topk=1))
     return np.mean(correct_top1)
 
-def save_predictions(predicted):
-    with open('DILBERTPredictions.csv', 'w') as df:
+def save_predictions(args, predicted):
+    with open(os.path.join(args.output_path, "DILBERTPreds.tsv"), 'w') as df:
         df.write('id\tabstract_id\toffset_start\toffset_finish\ttype\tmention\tentity_ids\n')
         for i, entry in enumerate(predicted):
             if i==0:
@@ -100,7 +101,7 @@ def main(args):
                 acc_1 = eval_entities(predicted, entities)
             print(f"Acc@1 is {acc_1}")
         else:
-            save_predictions(predicted)
+            save_predictions(args, predicted)
 
 if __name__ == '__main__':
     parser = create_parser()
