@@ -1,20 +1,25 @@
+import os
+import logging
+from copy import deepcopy
+from typing import List, Tuple, Any, Optional, Dict
+
 import numpy as np
 import faiss
 import torch
-import os
-import logging
-from preprocess import preprocess, combine_candidates, split_entity
+from torch.utils.data import DataLoader
+
+from sklearn.model_selection import train_test_split
+
 from sentence_transformers import models, SentenceTransformer
 from sentence_transformers import SentencesDataset
 from sentence_transformers.evaluation import SentenceEvaluator, TripletEvaluator
-from torch.utils.data import DataLoader
 from sentence_transformers.losses import TripletLoss
-from sklearn.model_selection import train_test_split
-
 from sentence_transformers.readers import TripletReader
-from typing import List, Tuple, Any, Optional, Dict
+
 from tqdm import tqdm
-from copy import deepcopy
+
+
+from DILBERT.DILBERT.preprocess.preprocess import preprocess, combine_candidates, split_entity
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s')
 

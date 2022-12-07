@@ -1,16 +1,16 @@
+import os
 from argparse import ArgumentParser
+import pickle
+from copy import deepcopy
+from typing import List, Dict, Any
+
 import numpy as np
 from tqdm import tqdm
 import pandas as pd
-import pickle
 
-from data_utils.utils import read_dataset, read_clinical_trials_dataset
-from models.bert_ranker import RankingMapper
-from typing import List, Dict, Any
-from copy import deepcopy
+from DILBERT.data_utils.utils import read_dataset, read_clinical_trials_dataset
+from DILBERT.models.bert_ranker import RankingMapper
 
-
-import os
 
 Entity = Dict[str, Any]
 

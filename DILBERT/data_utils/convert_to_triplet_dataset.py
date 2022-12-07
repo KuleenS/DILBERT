@@ -1,13 +1,15 @@
-from models.bert_ranker import RankingMapper
-from models.random_sampler import RandomSampler
 from argparse import ArgumentParser
 import pandas as pd
 from tqdm import tqdm
-from hierarchy import MeSHGraph, UMLSGraph
 import os
 from glob import glob
 
 from typing import Optional, Any, List, Tuple
+
+from DILBERT.DILBERT.models.bert_ranker import RankingMapper
+from DILBERT.DILBERT.models.random_sampler import RandomSampler
+from DILBERT.DILBERT.hierarchy.mesh_hierarchy import MeSHGraph
+from DILBERT.DILBERT.hierarchy.UMLS_hierarchy import UMLSGraph
 
 def create_parser():
     parser = ArgumentParser()

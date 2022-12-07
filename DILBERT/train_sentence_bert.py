@@ -1,6 +1,7 @@
-from models.bert_ranker import RankingMapper
 from argparse import ArgumentParser
 from sentence_transformers.readers import TripletReader
+
+from DILBERT.DILBERT.models.bert_ranker import RankingMapper
 
 def create_parser():
     parser = ArgumentParser()
