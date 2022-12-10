@@ -116,6 +116,10 @@ def main(args):
     else:
         model = RandomSampler(vocab_path=args.vocab, search_count=1024)
     batch_size = 32
+
+    if not os.path.exists(os.path.dirname(args.save_to)):
+        os.makedirs(os.path.dirname(args.save_to), exist_ok=True)
+
     with open(args.save_to, 'w', encoding='utf-8') as output_stream:
         for batch_start in tqdm(range(0, data.shape[0], batch_size), total=data.shape[0]//batch_size):
             batch_end = min(data.shape[0], batch_start + batch_size)

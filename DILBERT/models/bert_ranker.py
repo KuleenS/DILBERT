@@ -148,7 +148,7 @@ class RankingMapper:
 
         train_loss = TripletLoss(model=self.model)
         warmup_steps = int(len(train_triplets) / batch_size * epochs * 0.1)
-        torch.multiprocessing.set_start_method('spawn')
+        #torch.multiprocessing.set_start_method('spawn')
         self.model.fit(train_objectives=[(train_dataloader, train_loss)],
                        evaluator=TripletEvaluator.from_input_examples(test_triplets),
                        epochs=epochs,
