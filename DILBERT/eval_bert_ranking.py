@@ -8,8 +8,8 @@ import numpy as np
 from tqdm import tqdm
 import pandas as pd
 
-from DILBERT.data_utils.utils import read_dataset, read_clinical_trials_dataset
-from DILBERT.models.bert_ranker import RankingMapper
+from DILBERT.DILBERT.data_utils.utils import read_dataset, read_clinical_trials_dataset
+from DILBERT.DILBERT.models.bert_ranker import RankingMapper
 
 
 Entity = Dict[str, Any]
