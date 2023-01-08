@@ -71,18 +71,23 @@ def eval_entities(predicted_entities: List[Entity], gold_entities: List[Entity])
     return np.mean(correct_top1)
 
 def save_predictions(args, predicted):
+
+    if not os.path.exists(args.output_path):
+        os.makedirs(args.output_path, exist_ok = True)
+
     with open(os.path.join(args.output_path, "DILBERTPreds.tsv"), 'w') as df:
         df.write('id\tabstract_id\toffset_start\toffset_finish\ttype\tmention\tentity_ids\n')
         for i, entry in enumerate(predicted):
+            fileName = '_'.join(entry['query_id'].split('_')[:-1])
             if i==0:
-                with open(entry['query_id'].split('_')[0], 'r') as f:
+                with open(fileName, 'r') as f:
                     data = f.readlines()
             else:
-                if(entry['query_id'].split('_')[0]!=predicted[i-1]['query_id'].split('_')[0]):
-                    with open(entry['query_id'].split('_')[0], 'r') as f:
+                if(fileName != '_'.join(predicted[i-1]['query_id'].split('_')[:-1])):
+                    with open(fileName, 'r') as f:
                         data = f.readlines()
             line = data[entry['entity_id']].split('||')
-            base_name = os.path.basename(entry['query_id']).split('_')[0].split('.')[0]
+            base_name = os.path.basename(fileName.split('.')[0])
             offsets = line[1].split('|')
             df.write(f'{i}\t{base_name}\t{offsets[0]}\t{offsets[1]}\t{line[2]}\t{line[3]}\t{entry["label"][0]}\n')
         
