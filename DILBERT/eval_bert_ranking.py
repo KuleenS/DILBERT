@@ -75,7 +75,7 @@ def save_predictions(args, predicted):
     if not os.path.exists(args.output_path):
         os.makedirs(args.output_path, exist_ok = True)
 
-    with open(os.path.join(args.output_path, "DILBERTPreds.tsv"), 'w') as df:
+    with open(os.path.join(args.output_path, "NormPreds.tsv"), 'w') as df:
         df.write('id\tabstract_id\toffset_start\toffset_finish\ttype\tmention\tentity_ids\n')
         for i, entry in enumerate(predicted):
             fileName = '_'.join(entry['query_id'].split('_')[:-1])
